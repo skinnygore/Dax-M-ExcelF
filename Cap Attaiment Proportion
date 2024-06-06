@@ -1,0 +1,44 @@
+CNXGPT
+PROBLEM:
+
+Intent: The user needs an explanation for a specific Excel formula.
+Category: Ops
+Sentiment: (neutral •__•)
+SOLUTION:
+
+Formula Explanation
+Let's break down the formula step by step:
+
+excel
+Copy code
+=IF(B33 <= 0, 1.2, IF(B33 <= $G$32, 1.2 - (B33 / $G$32) * (1.2 - 1), 1 - ((B33 - $G$32) / ($G$32)) * (1 - 0)))
+Breakdown
+IF(B33 <= 0, 1.2, ...):
+
+If the value in cell B33 is less than or equal to 0, the result is 1.2 (120%).
+This handles the case where B33 is zero or negative by setting the result to the maximum value of 120%.
+IF(B33 <= G\32, 1.2 - (B33 / G\32) * (1.2 - 1), ...):
+
+If the value in cell B33 is greater than 0 but less than or equal to the value in cell $G$32 (which is assumed to be the target, 300 in this context), the formula calculates a linearly decreasing value from 120% to 100%.
+1.2 - (B33 / G\32) * (1.2 - 1):
+(B33 / $G$32) calculates the proportion of B33 relative to $G$32.
+(1.2 - 1) calculates the difference between 120% and 100%.
+Multiplying these together gives the amount to subtract from 1.2 to get a proportionally decreasing value.
+1 - ((B33 - G\32) / (G\32)) * (1 - 0):
+
+If the value in cell B33 is greater than $G$32, the formula calculates a value that is proportionally less than 100%.
+1 - ((B33 - G\32) / (G\32)) * (1 - 0):
+(B33 - $G$32) calculates how much B33 exceeds $G$32.
+($G$32) is used to normalize this excess.
+(1 - 0) simplifies to 1, which is subtracted from 1 (100%) to give a proportionally decreasing value below 100%.
+Summary
+The formula ensures:
+
+120% if B33 is ≤ 0.
+Between 120% and 100% if B33 is between 0 and $G$32 (target value).
+Proportionally decreasing values below 100% if B33 is greater than $G$32.
+Example Calculation:
+
+If B33 = 0, result is 1.2 (120%).
+If B33 = $G$32 (e.g., 300), result is 1.0 (100%).
+If B33 > $G$32 (e.g., 350), result is calculated as 1 - ((350 - 300) / 300) * 1 = 1 - (50 / 300) * 1 = 1 - 0.1667 = 0.8333 (approximately 83.33%).
