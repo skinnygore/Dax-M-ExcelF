@@ -1,0 +1,21 @@
+Category Cumulated % = 
+DIVIDE (
+    CALCULATE (
+        [# DSATs],
+        FILTER (
+            ALL ( 'DSAT'[Category] ),
+            VAR TableRowErrors = [# DSATs]
+            VAR MatrixRowErrors =
+                CALCULATE ( [# DSATs], VALUES ( 'DSAT'[Category] ) )
+            RETURN
+                OR (
+                    TableRowErrors > MatrixRowErrors,
+                    AND (
+                        TableRowErrors = MatrixRowErrors,
+                        'DSAT'[Category] <= SELECTEDVALUE ( 'DSAT'[Category] )
+                    )
+                )
+        )
+    ),
+    CALCULATE ( [# DSATs], ALL ( 'DSAT'[Category] ) )
+)
